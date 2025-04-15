@@ -1,6 +1,6 @@
 # XML Format
 
-Format XML documents, without changing the content within elements.
+Format XML and HTML documents, without changing the content within elements.
 
 ## Features
 
@@ -53,6 +53,10 @@ After:
 None
 
 ## Release Notes
+
+### 1.1.3R
+
+-   Registers itself for use with HTML files, too.
 
 ### 1.1.3
 

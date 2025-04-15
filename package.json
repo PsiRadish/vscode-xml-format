@@ -1,27 +1,28 @@
 {
-	"name": "xml-format",
-	"displayName": "XML Format",
-	"description": "Format XML documents",
+	"name": "xml-format-rad",
+	"displayName": "XML Format RAD",
+	"description": "Format XML and HTML documents",
 	"version": "1.1.3",
-	"publisher": "mikeburgh",
+	"publisher": "mikeburgh + RADISH",
 	"icon": "xml_format.png",
 	"engines": {
 		"vscode": "^1.19.0"
 	},
 	"bugs": {
-		"url": "https://github.com/mikeburgh/vscode-xml-format"
+		"url": "https://github.com/PsiRadish/vscode-xml-format"
 	},
-	"homepage": "https://github.com/mikeburgh/vscode-xml-format/blob/master/README.md",
+	"homepage": "https://github.com/PsiRadish/vscode-xml-format/blob/master/README.md",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/mikeburgh/vscode-xml-format.git"
+		"url": "https://github.com/PsiRadish/vscode-xml-format.git"
 	},
 	"categories": [
 		"Formatters"
 	],
 	"activationEvents": [
 		"onLanguage:xml",
-		"onLanguage:xsl"
+		"onLanguage:xsl",
+		"onLanguage:html"
 	],
 	"main": "./extension",
 	"scripts": {
