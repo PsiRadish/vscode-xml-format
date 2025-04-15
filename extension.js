@@ -180,7 +180,6 @@ function getRange(document) {
 // this method is called when your extension is activated
 function activate( context )
 {
-
     var disposableXML = vscode.languages.registerDocumentFormattingEditProvider( { language: 'xml' }, {
         provideDocumentFormattingEdits: function( document )
         {
@@ -198,6 +197,14 @@ function activate( context )
     } );
     vscode.workspace.onDidChangeConfiguration( updateVKBeautify, this, context.subscriptions );
     context.subscriptions.push( disposableXSL );
+    
+    var disposableHTML = vscode.languages.registerDocumentFormattingEditProvider({ language: 'html' }, {
+        provideDocumentFormattingEdits: function (document) {
+            return [vscode.TextEdit.replace(getRange(document), vkbeautify.xml(document.getText()))];
+        }
+    });
+    vscode.workspace.onDidChangeConfiguration(updateVKBeautify, this, context.subscriptions);
+    context.subscriptions.push(disposableHTML);
 }
 exports.activate = activate;
 
