@@ -1,4 +1,4 @@
-# XML Format
+# X(and HT)ML Format
 
 Format XML and HTML documents, without changing the content within elements.
 
