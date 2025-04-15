@@ -24,15 +24,15 @@ function createShiftArr(step) {
         space = step;
     } else { // argument is integer
         switch(step) {
-            case 1: space = ' '; break;
-            case 2: space = '  '; break;
-            case 3: space = '   '; break;
-            case 4: space = '    '; break;
-            case 5: space = '     '; break;
-            case 6: space = '      '; break;
-            case 7: space = '       '; break;
-            case 8: space = '        '; break;
-            case 9: space = '         '; break;
+            case 1:  space = ' '; break;
+            case 2:  space = '  '; break;
+            case 3:  space = '   '; break;
+            case 4:  space = '    '; break;
+            case 5:  space = '     '; break;
+            case 6:  space = '      '; break;
+            case 7:  space = '       '; break;
+            case 8:  space = '        '; break;
+            case 9:  space = '         '; break;
             case 10: space = '          '; break;
             case 11: space = '           '; break;
             case 12: space = '            '; break;
@@ -51,110 +51,110 @@ function VKBeautify(){
 };
 
 VKBeautify.prototype.xml = function(text) {
-	var ar = text
-			.trim()
-			.replace(/</g, '~::~<')
-			//.replace(/(\s)(xmlns[:=])/g,"$1~::~$2")
-			.split('~::~'),
-		len = ar.length,
-		inComment = false,
-		inCDATA = false,
-		deep_real = 0,
-		deep = 0,
-		str = '',
-		ix = 0,
+    var ar = text
+            .trim()
+            .replace(/</g, '~::~<')
+            //.replace(/(\s)(xmlns[:=])/g,"$1~::~$2")
+            .split('~::~'),
+        len = ar.length,
+        inComment = false,
+        inCDATA = false,
+        deep_real = 0,
+        deep = 0,
+        str = '',
+        ix = 0,
         step = vscode.window.activeTextEditor.options.insertSpaces ? vscode.window.activeTextEditor.options.tabSize : '\t'; //read the activeEditors indent config!
 
     if (!this.steps[step]) { 
         this.steps[step] = createShiftArr(step);
     }
-	shift = this.steps[step];
+    shift = this.steps[step];
 
-	for (ix = 0; ix < len; ix++) {
-		// in comment //
-		if (inComment) {
-			str += ar[ix];
-			// end comment //
-			if (ar[ix].search(/-->/) > -1) {
-				inComment = false;
-			}
-		}
-		// in <![CDATA[...]]> //
-		else if (inCDATA) {
-			str += ar[ix];
-			// end <![CDATA[...]]> //
-			if (ar[ix].search(/\]\]>/) > -1) {
-				inCDATA = false;
-			}
-		}
-		// start comment //
-		else if (ar[ix].search(/<!--/) > -1) {
-			str = str.trim() + shift[deep] + ar[ix];
-			inComment = true;
-			// end comment //
-			if (ar[ix].search(/-->/) > -1) {
-				inComment = false;
-			}
-		}
-		// end comment //
-		else if (ar[ix].search(/-->/) > -1) {
-			str += ar[ix];
-			inComment = false;
-		}
-		// start <![CDATA[...]]> //
-		else if (ar[ix].search(/<!\[CDATA\[/) > -1) {
-			str = str.trim() + shift[deep] + ar[ix];
-			inCDATA = true;
-			// end <![CDATA[...]]> //
-			if (ar[ix].search(/\]\]>/) > -1) {
-				inCDATA = false;
-			}
-		}
-		// end <![CDATA[...]]> //
-		else if (ar[ix].search(/\]\]>/) > -1) {
-			str += ar[ix];
-			inCDATA = false;
-		}
-		// <!DOCTYPE //
-		else if (ar[ix].search(/<!/) > -1) {
-			str = str.trim() + shift[deep] + ar[ix];
-		}
-		// <?xml //
-		else if (ar[ix].search(/<\?/) > -1) {
-			str = str.trim() + shift[deep] + ar[ix];
-		}
-		// <elm></elm> //
-		else if (ix > 0 && /^<\/[^<>!?\/\s]/.exec(ar[ix]) && /^<[^<>!?\/\s]/.exec(ar[ix - 1]) && /^<\/[^<>!?\/\s]+/.exec(ar[ix])[0].replace('/', '') == /^<[^<>!?\/\s]+/.exec(ar[ix - 1])[0]) {
-			if (deep_real > 0) deep_real--;
-			if (deep_real <= 100) deep = deep_real;
-			str += ar[ix];
-		}
-		// </elm> //
-		else if (ar[ix].search(/<\//) > -1) {
-			if (deep_real > 0) deep_real--;
-			if (deep_real <= 100) deep = deep_real;
-			str = str.trim() + shift[deep] + ar[ix];
-		}
-		// <elm> or <elm/> //
-		else if (ar[ix].search(/<[^<>!?\/\s]/) > -1) {
-			str = str.trim() + shift[deep] + ar[ix];
-			deep_real++;
-			// <elm/> //
-			if (ar[ix].search(/\/>/) > -1) {
-				deep_real--;
-			}
-			if (deep_real <= 100) deep = deep_real;
-		}
-		// xmlns //
-		//else if(ar[ix].search(/xmlns[:=]/) > -1) {
-		//    str = str.trim()+shift[deep]+ar[ix];
-		//}
-		else {
-			str += ar[ix];
-		}
-	}
+    for (ix = 0; ix < len; ix++) {
+        // in comment //
+        if (inComment) {
+            str += ar[ix];
+            // end comment //
+            if (ar[ix].search(/-->/) > -1) {
+                inComment = false;
+            }
+        }
+        // in <![CDATA[...]]> //
+        else if (inCDATA) {
+            str += ar[ix];
+            // end <![CDATA[...]]> //
+            if (ar[ix].search(/\]\]>/) > -1) {
+                inCDATA = false;
+            }
+        }
+        // start comment //
+        else if (ar[ix].search(/<!--/) > -1) {
+            str = str.trim() + shift[deep] + ar[ix];
+            inComment = true;
+            // end comment //
+            if (ar[ix].search(/-->/) > -1) {
+                inComment = false;
+            }
+        }
+        // end comment //
+        else if (ar[ix].search(/-->/) > -1) {
+            str += ar[ix];
+            inComment = false;
+        }
+        // start <![CDATA[...]]> //
+        else if (ar[ix].search(/<!\[CDATA\[/) > -1) {
+            str = str.trim() + shift[deep] + ar[ix];
+            inCDATA = true;
+            // end <![CDATA[...]]> //
+            if (ar[ix].search(/\]\]>/) > -1) {
+                inCDATA = false;
+            }
+        }
+        // end <![CDATA[...]]> //
+        else if (ar[ix].search(/\]\]>/) > -1) {
+            str += ar[ix];
+            inCDATA = false;
+        }
+        // <!DOCTYPE //
+        else if (ar[ix].search(/<!/) > -1) {
+            str = str.trim() + shift[deep] + ar[ix];
+        }
+        // <?xml //
+        else if (ar[ix].search(/<\?/) > -1) {
+            str = str.trim() + shift[deep] + ar[ix];
+        }
+        // <elm></elm> //
+        else if (ix > 0 && /^<\/[^<>!?\/\s]/.exec(ar[ix]) && /^<[^<>!?\/\s]/.exec(ar[ix - 1]) && /^<\/[^<>!?\/\s]+/.exec(ar[ix])[0].replace('/', '') == /^<[^<>!?\/\s]+/.exec(ar[ix - 1])[0]) {
+            if (deep_real > 0) deep_real--;
+            if (deep_real <= 100) deep = deep_real;
+            str += ar[ix];
+        }
+        // </elm> //
+        else if (ar[ix].search(/<\//) > -1) {
+            if (deep_real > 0) deep_real--;
+            if (deep_real <= 100) deep = deep_real;
+            str = str.trim() + shift[deep] + ar[ix];
+        }
+        // <elm> or <elm/> //
+        else if (ar[ix].search(/<[^<>!?\/\s]/) > -1) {
+            str = str.trim() + shift[deep] + ar[ix];
+            deep_real++;
+            // <elm/> //
+            if (ar[ix].search(/\/>/) > -1) {
+                deep_real--;
+            }
+            if (deep_real <= 100) deep = deep_real;
+        }
+        // xmlns //
+        //else if(ar[ix].search(/xmlns[:=]/) > -1) {
+        //    str = str.trim()+shift[deep]+ar[ix];
+        //}
+        else {
+            str += ar[ix];
+        }
+    }
 
-	return str.trim();
+    return str.trim();
 }
 
 function updateVKBeautify()
@@ -193,8 +193,8 @@ function activate( context )
     var disposableXSL = vscode.languages.registerDocumentFormattingEditProvider( { language: 'xsl' }, {
         provideDocumentFormattingEdits: function( document )
         {
-			return [vscode.TextEdit.replace(getRange(document), vkbeautify.xml(document.getText()))];
-		}
+            return [vscode.TextEdit.replace(getRange(document), vkbeautify.xml(document.getText()))];
+        }
     } );
     vscode.workspace.onDidChangeConfiguration( updateVKBeautify, this, context.subscriptions );
     context.subscriptions.push( disposableXSL );
